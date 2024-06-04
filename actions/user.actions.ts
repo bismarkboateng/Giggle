@@ -2,7 +2,12 @@
 
 import { connectToDatabase } from "@/lib/database"
 import User from "@/lib/database/models/user.models"
+import { cookies } from "next/headers"
 
+
+export const setUserId = (id: string) => {
+    cookies().set("authId", JSON.stringify({ id }))
+}
 
 export const checkUser = async (email: string) => {
     try {
@@ -30,3 +35,4 @@ export const createUser = async (user: CreatUserParams) => {
         throw error
     }
 }
+

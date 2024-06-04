@@ -1,17 +1,15 @@
 "use client"
 
-import {
-  Card, CardBody, Button,
-  Input
-} from "@nextui-org/react";
+import { Button, Input} from "@nextui-org/react";
 import { TbEyeFilled } from "react-icons/tb";
 import { IoEyeOffSharp } from "react-icons/io5";
-import { FcGoogle } from "react-icons/fc";
 import { ChangeEvent, FormEvent, useState } from "react"
 import { checkUser, createUser } from "@/actions/user.actions";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 
 export default function SignUp() {
   const [isPVisible, setIsPVisible] = useState(false);
@@ -32,9 +30,6 @@ export default function SignUp() {
   const toggleVisibility = () => setIsPVisible(!isPVisible);
   const toggleCPVisibility = () => setIsCPVisible(!isCPVisible);
 
-  const handleGoogleSignUp = () => {
-    console.log("google sign up")
-  }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -73,6 +68,7 @@ export default function SignUp() {
         authId: userCredential.user.uid
       })
       setSignUpState("success")
+      // send email to user
       console.log("send email to user")
       router.push("/accounts/sign-in")
     } catch (error) {
@@ -89,21 +85,7 @@ export default function SignUp() {
       </p>
       <p className="text-[#F2F2F2]">and acknowledge that you understand the <span className="text-primary-color">Privacy Policy</span></p>
 
-      <Card className="bg-white text-black px-1 cursor-pointer mt-5">
-       <CardBody onClick={handleGoogleSignUp}>
-        <div className="flex items-center">
-         <FcGoogle fontSize={22} />
-         <p className="ml-14">Continue with Google</p>
-        </div>
-       </CardBody>
-      </Card>
-      <div className="flex items-center gap-2">
-       <div className="h-[1px] w-full bg-[#303030]" />
-       <p className="text-center my-5 text-[#F2F2F2]">OR</p>
-       <div className="h-[1px] w-full bg-[#303030]" />
-      </div>
-
-      <section className="mt-3 w-full">
+      <section className="mt-20 w-full">
        <form onSubmit={handleSubmit}>
         <div>
          <Input
@@ -185,6 +167,10 @@ export default function SignUp() {
       {isFieldEmpty && <p className="text-center text-red-500 mt-2">{isFieldEmpty}</p>}
       {passwordDoesNotMatch && <p className="text-center text-red-500 mt-2">{passwordDoesNotMatch}</p>}
       {userExist && <p className="text-center text-red-500 mt-2">{userExist}</p>}
+
+      <div className="mt-10">
+        <p>Already a Memer? <Link href="/accounts/sign-in" className="text-primary-color underline">Sign In</Link></p>
+      </div>
     </section>
   )
 }
