@@ -17,6 +17,7 @@ export default function SignUp() {
   const [isFieldEmpty, setIsFieldEmpty] = useState("")
   const [signUpState, setSignUpState] = useState("")
   const [userExist, setUserExist] = useState("")
+  const [error, setError] = useState("")
   const [passwordDoesNotMatch, setPasswordDoesNotMatch] = useState("")
 
   const [formData, setFormData] = useState({
@@ -35,6 +36,8 @@ export default function SignUp() {
     const { name, value } = event.target
     setIsFieldEmpty("")
     setPasswordDoesNotMatch("")
+    setUserExist("")
+    setError("")
     setFormData({ ...formData, [name]: value })
   }
 
@@ -55,7 +58,7 @@ export default function SignUp() {
     const isUserExist = JSON.parse(user).isUserExist
 
     if (isUserExist) {
-      setUserExist("User with this email already exists. Please sign in")
+      setUserExist("This email already exists. Please sign in")
       return
     }
 
@@ -72,7 +75,8 @@ export default function SignUp() {
       console.log("send email to user")
       router.push("/accounts/sign-in")
     } catch (error) {
-      throw error
+      setError("Something went wrong, Please try again")
+      setSignUpState("")
     }
   }
 
@@ -167,9 +171,10 @@ export default function SignUp() {
       {isFieldEmpty && <p className="text-center text-red-500 mt-2">{isFieldEmpty}</p>}
       {passwordDoesNotMatch && <p className="text-center text-red-500 mt-2">{passwordDoesNotMatch}</p>}
       {userExist && <p className="text-center text-red-500 mt-2">{userExist}</p>}
+      {error && <p className="text-center text-red-500 mt-2">{error}</p>}
 
       <div className="mt-10">
-        <p>Already a Memer? <Link href="/accounts/sign-in" className="text-primary-color underline">Sign In</Link></p>
+        <p>Already a Memer? <Link href="/accounts/sign-in" className="text-primary-color">Sign In</Link></p>
       </div>
     </section>
   )

@@ -16,6 +16,7 @@ export default function SignIn() {
   const [isFieldEmpty, setIsFieldEmpty] = useState("")
   const [signInState, setSignInState] = useState("")
   const [userExist, setUserExist] = useState("")
+  const [error, setError] = useState("")
   const [passwordDoesNotMatch, setPasswordDoesNotMatch] = useState("")
 
   const [formData, setFormData] = useState({
@@ -31,6 +32,8 @@ export default function SignIn() {
     const { name, value } = event.target
     setIsFieldEmpty("")
     setPasswordDoesNotMatch("")
+    setUserExist("")
+    setError("")
     setFormData({ ...formData, [name]: value })
   }
 
@@ -46,7 +49,7 @@ export default function SignIn() {
     const isUserExist = JSON.parse(user).isUserExist
 
     if (!isUserExist) {
-      setUserExist("User with this email does not exist. Please sign up")
+      setUserExist("This emails does not exist. Please sign up")
       return
     }
 
@@ -57,7 +60,8 @@ export default function SignIn() {
       setSignInState("success")
       router.push("/memes/feed")
     } catch (error) {
-      throw error
+      setError("Something went wrong, Please try again")
+      setSignInState("")
     }
   }
 
@@ -118,9 +122,10 @@ export default function SignIn() {
       {isFieldEmpty && <p className="text-center text-red-500 mt-2">{isFieldEmpty}</p>}
       {passwordDoesNotMatch && <p className="text-center text-red-500 mt-2">{passwordDoesNotMatch}</p>}
       {userExist && <p className="text-center text-red-500 mt-2">{userExist}</p>}
+      {error && <p className="text-center text-red-500 mt-2">{error}</p>}
 
       <div className="mt-10">
-        <p>New to Giggler? <Link href="/accounts/sign-up" className="text-primary-color underline">Sign Up</Link></p>
+        <p>New to Giggle? <Link href="/accounts/sign-up" className="text-primary-color">Sign Up</Link></p>
       </div>
     </section>
   )

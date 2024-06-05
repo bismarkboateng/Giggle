@@ -9,6 +9,10 @@ export const setUserId = (id: string) => {
     cookies().set("authId", JSON.stringify({ id }))
 }
 
+export const deleteUserId = () => {
+    cookies().delete("authId")
+}
+
 export const checkUser = async (email: string) => {
     try {
         await connectToDatabase()
