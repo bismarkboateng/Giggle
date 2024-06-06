@@ -82,12 +82,12 @@ export default function SignUp() {
 
 
   return (
-    <section className="mt-10 px-5">
+    <section className="mt-10 px-5 bg-black">
       <h1 className="text-2xl text-[#EEF1F3] font-bold">Sign Up</h1>
       <p className="mt-1 text-[#F2F2F2]">
-       By continuing, you agree to our <span className="text-primary-color">User Agreement</span>
+       By continuing, you agree to our <span className="text-[#648EFC]">User Agreement</span>
       </p>
-      <p className="text-[#F2F2F2]">and acknowledge that you understand the <span className="text-primary-color">Privacy Policy</span></p>
+      <p className="text-[#F2F2F2]">and acknowledge that you understand the <span className="text-[#648EFC]">Privacy Policy</span></p>
 
       <section className="mt-20 w-full">
        <form onSubmit={handleSubmit}>
@@ -174,7 +174,7 @@ export default function SignUp() {
       {error && <p className="text-center text-red-500 mt-2">{error}</p>}
 
       <div className="mt-10">
-        <p>Already a Memer? <Link href="/accounts/sign-in" className="text-primary-color">Sign In</Link></p>
+        <p>Already a Memer? <Link href="/accounts/sign-in" className="text-[#648EFC]">Sign In</Link></p>
       </div>
     </section>
   )

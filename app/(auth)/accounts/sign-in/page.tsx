@@ -67,12 +67,12 @@ export default function SignIn() {
 
 
   return (
-    <section className="mt-10 px-5">
+    <section className="mt-10 px-5 bg-black">
       <h1 className="text-2xl text-[#EEF1F3] font-bold">Sign In</h1>
       <p className="mt-1 text-[#F2F2F2]">
-       By continuing, you agree to our <span className="text-primary-color">User Agreement</span>
+       By continuing, you agree to our <span className="text-[#648EFC]">User Agreement</span>
       </p>
-      <p className="text-[#F2F2F2]">and acknowledge that you understand the <span className="text-primary-color">Privacy Policy</span></p>
+      <p className="text-[#F2F2F2]">and acknowledge that you understand the <span className="text-[#648EFC]">Privacy Policy</span></p>
 
       <section className="mt-20 w-full">
        <form onSubmit={handleSubmit}>
@@ -125,7 +125,7 @@ export default function SignIn() {
       {error && <p className="text-center text-red-500 mt-2">{error}</p>}
 
       <div className="mt-10">
-        <p>New to Giggle? <Link href="/accounts/sign-up" className="text-primary-color">Sign Up</Link></p>
+        <p>New to Giggle? <Link href="/accounts/sign-up" className="text-[#648EFC]">Sign Up</Link></p>
       </div>
     </section>
   )

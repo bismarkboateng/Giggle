@@ -10,6 +10,7 @@ const MemeSchema = new Schema({
   views: { type: Number, default: 0, required: false },
   commentId: { type: Schema.Types.ObjectId, ref: "Comment" },
   authorId: { type: Schema.Types.ObjectId, ref: "User" },
+  tag: { type: Schema.Types.ObjectId, ref: "Tag" },
   date: { type: Date, default: Date.now, required: false },
 })
 
