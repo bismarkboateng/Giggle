@@ -13,6 +13,13 @@ export const deleteUserId = () => {
     cookies().delete("authId")
 }
 
+export const getUserId = async () => {
+    const cookie = await cookies().get("authId")
+    if (cookie && cookie.value) {
+        return JSON.parse(cookie.value);
+    }
+}
+
 export const checkUser = async (email: string) => {
     try {
         await connectToDatabase()

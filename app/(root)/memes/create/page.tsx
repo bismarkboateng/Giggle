@@ -1,6 +1,6 @@
 "use client"
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import {Button, Divider, Input, Select, SelectItem} from "@nextui-org/react";
 import { GoPlus } from "react-icons/go";
@@ -10,17 +10,32 @@ import {
   AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { addTag, getAllTags } from "@/actions/tag.actions";
-
+import {ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { storage } from "@/lib/firebase"
+import { v4 } from "uuid"
+import { postMeme } from "@/actions/meme.actions";
+import { useRouter } from "next/navigation";
+import { getUserId } from "@/actions/user.actions";
 
 type TagType = {
   _id: string;
   name: string;
 }
+
+type MemeType = {
+  url: string;
+}
 export default function CreateMeme() {
   const [meme, setMeme] = useState<FileList | null>(null)
+  const [postedMeme, setPostedMeme] = useState({} as MemeType)
   const [tag, setTag] = useState("")
   const [tags, setTags] = useState<TagType[]>([])
   const [select, setSelect] = useState("")
+  const [creatingMeme, setCreatingMeme] = useState("")
+
+  const router = useRouter()
+
+ const memesRef = ref(storage, "memes/")
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMeme(event.target.files);
@@ -31,10 +46,31 @@ export default function CreateMeme() {
     setTag("")
   }
 
-  const handlePost = () => {
-    console.log(select)
-    console.log(meme)
+  const sendMemeToServer = async (url: string) => {
+    const userId: { id: string } = await getUserId()
+    setCreatingMeme("loading")
+    await postMeme({
+      file: url,
+      tag: select,
+      authorId: userId.id
+    })
+    setCreatingMeme("done")
+    router.push("/user/profile")
   }
+  // upload meme to firebase
+  const handlePost = async () => {
+    const memeToUpload = meme && meme[0]
+
+    if (!memeToUpload) return
+    const memeRef = ref(storage, `memes/${memeToUpload.name + v4()}`)
+    uploadBytes(memeRef, memeToUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        sendMemeToServer(url)
+      })
+    })
+  }
+
+  useEffect(() => console.log(postedMeme), [postedMeme])
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -51,7 +87,7 @@ export default function CreateMeme() {
   return (
     <section className="px-5 mt-5">
       <h1 className="text-[#B7CAD4] font-bold text-base">
-        Create Meme
+        Post Meme
       </h1>
       <div className="mt-10 ">
         <div className="w-full border-dashed border border-[#F2F2F2] rounded-lg
@@ -115,7 +151,11 @@ export default function CreateMeme() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                <AlertDialogCancel>Cancel</AlertDialogCancel>
-               <AlertDialogAction onClick={handleSubmitTag}>Add</AlertDialogAction>
+               <AlertDialogAction
+               className="bg-[#D93900] text-white"
+               onClick={handleSubmitTag}>
+                Add
+               </AlertDialogAction>
               </AlertDialogFooter>
              </AlertDialogContent>
             </AlertDialog>
@@ -123,6 +163,7 @@ export default function CreateMeme() {
         </div>
       </div>
       <Button className="mt-7 w-full text-white py-6 font-bold bg-[#D93900]"
+      isLoading={creatingMeme === "loading"}
       onClick={handlePost}>
        Post
       </Button>
