@@ -22,12 +22,8 @@ type TagType = {
   name: string;
 }
 
-type MemeType = {
-  url: string;
-}
 export default function CreateMeme() {
   const [meme, setMeme] = useState<FileList | null>(null)
-  const [postedMeme, setPostedMeme] = useState({} as MemeType)
   const [tag, setTag] = useState("")
   const [tags, setTags] = useState<TagType[]>([])
   const [select, setSelect] = useState("")
@@ -35,7 +31,7 @@ export default function CreateMeme() {
 
   const router = useRouter()
 
- const memesRef = ref(storage, "memes/")
+  const memesRef = ref(storage, "memes/")
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMeme(event.target.files);
@@ -47,15 +43,20 @@ export default function CreateMeme() {
   }
 
   const sendMemeToServer = async (url: string) => {
-    const userId: { id: string } = await getUserId()
-    setCreatingMeme("loading")
-    await postMeme({
-      file: url,
-      tag: select,
-      authorId: userId.id
-    })
-    setCreatingMeme("done")
-    router.push("/user/profile")
+    try {
+      const userId: { id: string } = await getUserId()
+      setCreatingMeme("loading")
+      await postMeme({
+        file: url,
+        tag: select,
+        authorId: userId.id
+      })
+      setCreatingMeme("done")
+      router.push("/user/profile")
+      
+    } catch (error) {
+     setCreatingMeme("error") 
+    }
   }
   // upload meme to firebase
   const handlePost = async () => {
@@ -69,8 +70,6 @@ export default function CreateMeme() {
       })
     })
   }
-
-  useEffect(() => console.log(postedMeme), [postedMeme])
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -167,6 +166,11 @@ export default function CreateMeme() {
       onClick={handlePost}>
        Post
       </Button>
+      {creatingMeme === "error"
+       &&
+      <p className="text-center text-red-500 mt-2">
+       Something went wrong! Please try again.
+      </p>}
     </section>
   )
 }
