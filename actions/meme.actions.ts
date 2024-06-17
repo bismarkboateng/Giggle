@@ -2,7 +2,12 @@
 
 import { connectToDatabase } from "@/lib/database"
 import Meme from "@/lib/database/models/meme.models";
+import User from "@/lib/database/models/user.models";
 
+const populateMeme = (query: any) => {
+    return query
+      .populate({ path: "authorId", model: User, select: "_id username" })
+  }
 export const postMeme = async (meme: { file: string; tag: string, authorId: string }) => {
     try {
         await connectToDatabase()
@@ -17,14 +22,36 @@ export const postMeme = async (meme: { file: string; tag: string, authorId: stri
 export const getUserPost = async (authorId: string) => {
     try {
         await connectToDatabase()
-        const memesByUser = await Meme.find({ authorId })
-        return JSON.stringify({ memesByUser })
+        const memesByUser = await Meme.find({ authorId: authorId })
+        return JSON.stringify(memesByUser)
     } catch (error) {
         throw error
     }
 }
 
+export const getMeme = async (id: string) => {
+    try {
+        await connectToDatabase()
+        const meme = await populateMeme(Meme.findById(id))
+        return JSON.stringify(meme)
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getAllMemes = async () => {
+    try {
+        await connectToDatabase()
+        const allMemes = await Meme.find({})
+        return JSON.stringify(allMemes)
+    } catch (error) {
+        throw error
+    }
+}
+
+
 export const likePost = async (memeId: string) => {
+    console.log(memeId)
     try {
         await connectToDatabase()
 

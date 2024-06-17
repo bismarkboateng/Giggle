@@ -3,21 +3,20 @@
 import { connectToDatabase } from "@/lib/database"
 import User from "@/lib/database/models/user.models"
 import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 
-export const setUserId = (id: string) => {
-    cookies().set("authId", JSON.stringify({ id }))
+export const setUserId = async (id: string) => {
+    await cookies().set("userId", id)
 }
 
-export const deleteUserId = () => {
-    cookies().delete("authId")
+export const deleteUserId = async () => {
+    await cookies().delete("userId")
 }
 
 export const getUserId = async () => {
-    const cookie = await cookies().get("authId")
-    if (cookie && cookie.value) {
-        return JSON.parse(cookie.value);
-    }
+    const cookie = await cookies().get("userId")
+    if (cookie) return cookie.value
 }
 
 export const checkUser = async (email: string) => {
@@ -41,9 +40,32 @@ export const createUser = async (user: CreatUserParams) => {
         await connectToDatabase()
         
         const createdUser = await User.create(user)
-        return JSON.stringify({ createdUser })
+        return JSON.stringify(createdUser)
     } catch (error) {
         throw error
     }
 }
 
+export const getUserById = async () => {
+    const currentUserId = await getUserId()
+
+    try {
+        await connectToDatabase()
+        const user = await User.findById(currentUserId)
+        return JSON.stringify(user)
+    } catch (error) {
+        throw error
+    }
+}
+
+export const updateUser = async (data: { username: string}) => {
+    const currentUserId = await getUserId()
+
+    try {
+        await connectToDatabase()
+        const updatedUser = await User.findByIdAndUpdate(currentUserId, data, { new: true })
+        redirect("/user/profile")
+    } catch (error) {
+        throw error
+    }
+}

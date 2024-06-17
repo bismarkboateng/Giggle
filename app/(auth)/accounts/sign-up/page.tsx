@@ -6,6 +6,7 @@ import { IoEyeOffSharp } from "react-icons/io5";
 import { ChangeEvent, FormEvent, useState } from "react"
 import { checkUser, createUser } from "@/actions/user.actions";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setUserId } from "@/actions/user.actions";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -51,7 +52,7 @@ export default function SignUp() {
 
     if (password !== confirmPassword) {
       setPasswordDoesNotMatch("Passwords do not match")
-     return
+      return
     }
 
     const user = await checkUser(email)
@@ -65,11 +66,13 @@ export default function SignUp() {
     try {
       setSignUpState("loading")
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      await createUser({
+      const createdDbUser = await createUser({
         username,
         email,
         authId: userCredential.user.uid
       })
+      const parsedCreatedDbUser: UserFromDb = JSON.parse(createdDbUser)
+      await setUserId(parsedCreatedDbUser._id)
       setSignUpState("success")
       // send email to user
       console.log("send email to user")
@@ -82,12 +85,12 @@ export default function SignUp() {
 
 
   return (
-    <section className="mt-10 px-5 bg-black">
-      <h1 className="text-2xl text-[#EEF1F3] font-bold">Sign Up</h1>
-      <p className="mt-1 text-[#F2F2F2]">
+    <section className="mt-10 px-5 md:px-32 lg:px-60 xl:px-96 bg-black ">
+      <h1 className="text-2xl 2xl:text-3xl text-[#EEF1F3] font-bold">Sign Up</h1>
+      <p className="mt-1 text-[#F2F2F2] 2xl:text-lg">
        By continuing, you agree to our <span className="text-[#648EFC]">User Agreement</span>
       </p>
-      <p className="text-[#F2F2F2]">and acknowledge that you understand the <span className="text-[#648EFC]">Privacy Policy</span></p>
+      <p className="text-[#F2F2F2] 2xl:text-lg">and acknowledge that you understand the <span className="text-[#648EFC]">Privacy Policy</span></p>
 
       <section className="mt-20 w-full">
        <form onSubmit={handleSubmit}>

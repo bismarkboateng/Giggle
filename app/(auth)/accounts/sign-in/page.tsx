@@ -4,7 +4,7 @@ import { Button, Input} from "@nextui-org/react";
 import { TbEyeFilled } from "react-icons/tb";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { ChangeEvent, FormEvent, useState } from "react"
-import { checkUser, setUserId } from "@/actions/user.actions";
+import { checkUser } from "@/actions/user.actions";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
@@ -56,7 +56,6 @@ export default function SignIn() {
     try {
       setSignInState("loading")
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
-      setUserId(userCredential.user.uid)
       setSignInState("success")
       router.push("/memes/feed")
     } catch (error) {
@@ -67,9 +66,9 @@ export default function SignIn() {
 
 
   return (
-    <section className="mt-10 px-5 bg-black">
-      <h1 className="text-2xl text-[#EEF1F3] font-bold">Sign In</h1>
-      <p className="mt-1 text-[#F2F2F2]">
+    <section className="mt-10 px-5 md:px-32 lg:px-60 xl:px-96 bg-black">
+      <h1 className="text-2xl 2xl:text-3xl text-[#EEF1F3] font-bold">Sign In</h1>
+      <p className="mt-1 text-[#F2F2F2] 2xl:text-lg">
        By continuing, you agree to our <span className="text-[#648EFC]">User Agreement</span>
       </p>
       <p className="text-[#F2F2F2]">and acknowledge that you understand the <span className="text-[#648EFC]">Privacy Policy</span></p>

@@ -1,14 +1,13 @@
 import Sidebar from "./Sidebar";
 import { CiSearch } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
-import { IoIosNotificationsOutline } from "react-icons/io";
 import User from "./User";
 import Link from "next/link";
 
 
 export default function NavbarComponent() {
   return (
-    <nav className="sticky top-0 left-0 w-full border-b pb-2 px-4 pt-4">
+    <nav className="bg-black sticky top-0 left-0 w-full border-b pb-2 px-4 pt-4">
      <section className="flex flex-row items-cneter justify-between">
      <div className="flex gap-2">
       <Sidebar />
@@ -19,7 +18,6 @@ export default function NavbarComponent() {
       <Link href="/memes/create">
        <GoPlus fontSize={25} />
       </Link>
-      <IoIosNotificationsOutline fontSize={25} />
       <User />
      </div>
      </section>

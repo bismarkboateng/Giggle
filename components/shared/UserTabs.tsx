@@ -8,6 +8,7 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { calculateStats } from "@/lib/utils";
+import Link from "next/link";
 
 
 export default function UserTabs() {
@@ -20,15 +21,15 @@ export default function UserTabs() {
 
   useEffect(() => {
     const fetchDataBySelectValue = async () => {
-        const userId: { id: string } = await getUserId()
+        const currentUserId = await getUserId()
 
         switch (selected) {
             case "post":
-                const userMemes = await getUserPost(userId.id)
-                setMemes(JSON.parse(userMemes).memesByUser)
+                const userMemes = await getUserPost(currentUserId!)
+                setMemes(JSON.parse(userMemes))
                 break;
             case "comments":
-                // fetch all comments for a user
+                // fetch all comments  50 427 4816for a user
                 break;
         }
     }
@@ -39,6 +40,7 @@ export default function UserTabs() {
   const addLike = (memeId: string) => {
     // setIsLiked(true)
     // setLike("liked")
+    console.log(memeId)
     setMemeId(memeId)
     setLiked("liked")
     console.log("liked post")
@@ -77,17 +79,19 @@ export default function UserTabs() {
       <Tab key="post" title="Post">
        <Card>
         <CardBody className="flex flex-col gap-3">
-         {memes.map((meme) => (
+         {memes && memes.map((meme) => (
            <div key={meme._id}>
             <div className="w-full">
              {meme.file && (
-              <Image
-               src={meme.file}
-               width={350}
-               height={150}
-               alt="meme"
-               className="rounded-lg"
-              />
+              <Link href={`/memes/${meme._id}/detail`}>
+               <Image
+                src={meme.file}
+                width={350}
+                height={150}
+                alt="meme"
+                className="rounded-lg"
+               />
+              </Link>
              )}
             </div>
             <div className="flex flex-row items-center gap-4 bg-[#27272A]

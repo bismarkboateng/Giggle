@@ -42,14 +42,14 @@ export default function CreateMeme() {
     setTag("")
   }
 
-  const sendMemeToServer = async (url: string) => {
+  const sendMemeToDb = async (url: string) => {
     try {
-      const userId: { id: string } = await getUserId()
+      const currentUserId  = await getUserId()
       setCreatingMeme("loading")
       await postMeme({
         file: url,
         tag: select,
-        authorId: userId.id
+        authorId: currentUserId!
       })
       setCreatingMeme("done")
       router.push("/user/profile")
@@ -66,7 +66,7 @@ export default function CreateMeme() {
     const memeRef = ref(storage, `memes/${memeToUpload.name + v4()}`)
     uploadBytes(memeRef, memeToUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        sendMemeToServer(url)
+        sendMemeToDb(url)
       })
     })
   }
