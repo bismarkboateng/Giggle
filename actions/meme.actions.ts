@@ -56,7 +56,6 @@ export const getAllMemes = async () => {
 
 
 export const likePost = async (memeId: string) => {
-    console.log(memeId)
     try {
         await connectToDatabase()
 

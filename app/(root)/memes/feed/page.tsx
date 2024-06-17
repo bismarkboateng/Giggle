@@ -32,7 +32,7 @@ export default async function Feed() {
        <Card key={meme._id}>
        <CardBody className="flex flex-col gap-3">
         <div>
-         <div className="">
+         <div>
            {meme.file && (
             <div className="w-full h-[200px]">
              <Link href={`/memes/${meme._id}/detail`}>

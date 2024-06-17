@@ -42,3 +42,13 @@ export const getAllComment = async (memeId: string) => {
         throw error
     }
 }
+
+export const getAllCommentWithUserId = async (userId: string) => {
+    try {
+        await connectToDatabase()
+        const userComments = await Comment.find({ commentorId: userId })
+        return JSON.stringify(userComments)
+    } catch (error) {
+        throw error
+    }
+}

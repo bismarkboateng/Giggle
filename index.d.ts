@@ -59,4 +59,12 @@ type Comment = {
     date: string;
 }
 
+type UserComment = {
+    _id: string;
+    content: string;
+    memeId: string;
+    commentorId: string;
+    date: string;
+}
+
 
