@@ -1,13 +1,13 @@
 "use client"
 
 import { addComment, getAllComment } from "@/actions/comment.actions";
-import { getMeme, likePost, unLikePost } from "@/actions/meme.actions";
+import { downvote, getMeme, likePost, unLikePost, upvote } from "@/actions/meme.actions";
 import {Card, CardBody, Divider, Input} from "@nextui-org/react";
 import Image from "next/image";
 import { Fragment, useEffect, useState } from "react";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
-import { FaHeart, FaRegCommentDots } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { TfiComment } from "react-icons/tfi";
 
 interface Comment {
@@ -30,6 +30,8 @@ export default function MemeDetail({ params }: MemeDetailProps) {
   const [comments, setComments] = useState<Comment[] | null>(null)
   const [isLiked, setIsLiked] = useState<boolean | null>(null)
   const [liked, setLiked] = useState("")
+  const [isUpvote, setIsUpvote] = useState("")
+  const [value, setValue] = useState("")
 
   useEffect(() => {
     const fetchMemeDetails = async () => {
@@ -39,7 +41,7 @@ export default function MemeDetail({ params }: MemeDetailProps) {
     }
 
     fetchMemeDetails()
-  }, [memeId, liked, isLiked])
+  }, [memeId, liked, isLiked, isUpvote])
 
   useEffect(() => {
     const fetchAllComments = async () => {
@@ -49,11 +51,13 @@ export default function MemeDetail({ params }: MemeDetailProps) {
     }
 
     fetchAllComments()
-  }, [memeId, comments])
+  }, [memeId, value])
 
 
   const handleAddComment = async (formData: FormData, memeId: string) => {
+    const info = formData.get("comment")
     await addComment(memeId, formData)
+    setValue(JSON.stringify(info))
   }
 
   const toggleLike = () => {
@@ -78,6 +82,16 @@ export default function MemeDetail({ params }: MemeDetailProps) {
     toggleLikeAndUnLike()
   }, [liked, memeId])
 
+  const handleUpvote = async () => {
+    await upvote(memeId)
+    setIsUpvote("upvote")
+  }
+
+  const handleDownvote = async () => {
+    await downvote(memeId)
+    setIsUpvote("not-upvote")
+  }
+
   return (
     <section className="px-5 mt-10 bg-black">
       <Card>
@@ -87,7 +101,7 @@ export default function MemeDetail({ params }: MemeDetailProps) {
            src={memeDetails?.file!}
            fill
            alt="meme detail"
-           className="object-cover rounded-lg"
+           className="object-cover rounded-lg w-full h-full"
           />
          </div>
         </CardBody>
@@ -105,9 +119,11 @@ export default function MemeDetail({ params }: MemeDetailProps) {
         <p>{memeDetails?.likes}</p>
        </div>
        <div className="flex items-center gap-1">
-        <BiDownvote fontSize={23} className="text-red-500" />
-        <p>22</p>
-        <BiUpvote fontSize={23} className="text-red-500" />
+        <BiUpvote onClick={handleUpvote} fontSize={23} className="text-red-500 cursor-pointer" />
+        <p>{memeDetails?.upvotes}</p>
+        {" "}
+        <BiDownvote onClick={handleDownvote} fontSize={23} className="text-red-500 cursor-pointer" />
+        <p>{memeDetails?.downvotes}</p>
        </div>
       </div>
       <div className="italic text-gray-400 my-2">

@@ -85,3 +85,29 @@ export const unLikePost = async (memeId: string) => {
         throw error
     }
 }
+
+export const upvote = async (memeId: string) => {
+    try {
+        await connectToDatabase()
+        const meme = await Meme.findById(memeId)
+        if (meme) {
+            meme.upvotes += 1
+            await meme.save()
+        }
+    } catch (error) {
+        throw error
+    }
+}
+
+export const downvote = async (memeId: string) => {
+    try {
+        await connectToDatabase()
+        const meme = await Meme.findById(memeId)
+        if (meme) {
+            meme.downvotes += 1
+            await meme.save()
+        }
+    } catch (error) {
+        throw error
+    }
+}

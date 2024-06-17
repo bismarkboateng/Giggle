@@ -48,8 +48,7 @@ export default function SignIn() {
     const user = await checkUser(email)
     const isUserExist = JSON.parse(user).isUserExist
     const currentUser: UserFromDb = JSON.parse(user).currentUser
-    console.log(currentUser)
-
+      
     if (!isUserExist) {
       setUserExist("This emails does not exist. Please sign up")
       return
