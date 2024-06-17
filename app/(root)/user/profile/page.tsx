@@ -10,8 +10,6 @@ export default async function Profile() {
   const currentUser = await getUserById()
   const parsedUser = JSON.parse(currentUser)
 
-  console.log(parsedUser)
-
   const defaultImage = "https://i.redd.it/snoovatar/avatars/nftv2_bmZ0X2VpcDE1NToxMzdfZWI5NTlhNzE1ZGZmZmU2ZjgyZjQ2MDU1MzM5ODJjNDg1OWNiMTRmZV84ODg1MTg_rare_8ac4af61-b316-4ebe-80fe-af928d199f5b.png"
   return (
     <section className="bg-black px-5">

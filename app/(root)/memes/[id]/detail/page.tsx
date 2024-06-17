@@ -139,7 +139,7 @@ export default function MemeDetail({ params }: MemeDetailProps) {
         <Fragment key={comment._id}>
          <div className="flex flex-row gap-2 p-2 justify-between items-center" key={comment._id}>
           <li className="list-none text-lg">{comment.content}</li>
-          <li className="list-none text-lg">{comment.commentorId.username}</li>
+          <li className="list-none text-sm italic text-gray-500">{comment.commentorId.username}</li>
          </div>
          <Divider />
         </Fragment>

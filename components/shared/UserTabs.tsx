@@ -41,15 +41,16 @@ export default function UserTabs() {
         }
     }
     fetchDataBySelectValue()
-  }, [selected])
+  }, [selected, memes])
 
 
   return (
     <div className="flex w-full flex-col mt-3">
      <Tabs
-      aria-label="Options"         
+      aria-label="Options"
       selectedKey={selected}
-      onSelectionChange={setSelected}
+      // onSelectionChange={setSelected}
+      onSelectionChange={(key) => setSelected(key as string)}
      >
       <Tab key="post" className="flex flex-col gap-3" title="Post">
        {memes && memes.map((meme) => (
