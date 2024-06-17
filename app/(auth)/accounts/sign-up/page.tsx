@@ -6,7 +6,6 @@ import { IoEyeOffSharp } from "react-icons/io5";
 import { ChangeEvent, FormEvent, useState } from "react"
 import { checkUser, createUser } from "@/actions/user.actions";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setUserId } from "@/actions/user.actions";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -66,13 +65,11 @@ export default function SignUp() {
     try {
       setSignUpState("loading")
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      const createdDbUser = await createUser({
+      await createUser({
         username,
         email,
         authId: userCredential.user.uid
       })
-      const parsedCreatedDbUser: UserFromDb = JSON.parse(createdDbUser)
-      await setUserId(parsedCreatedDbUser._id)
       setSignUpState("success")
       // send email to user
       console.log("send email to user")

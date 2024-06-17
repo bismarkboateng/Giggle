@@ -1,12 +1,14 @@
 "use client"
 
 import { addComment, getAllComment } from "@/actions/comment.actions";
-import { getMeme } from "@/actions/meme.actions";
+import { getMeme, likePost, unLikePost } from "@/actions/meme.actions";
 import {Card, CardBody, Divider, Input} from "@nextui-org/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { BiDownvote, BiUpvote } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart, FaRegCommentDots } from "react-icons/fa";
+import { TfiComment } from "react-icons/tfi";
 
 interface Comment {
   _id: string;
@@ -26,6 +28,8 @@ export default function MemeDetail({ params }: MemeDetailProps) {
   const memeId = params.id
   const [memeDetails, setMemeDetails] = useState<MemeDetail | null>(null)
   const [comments, setComments] = useState<Comment[] | null>(null)
+  const [isLiked, setIsLiked] = useState<boolean | null>(null)
+  const [liked, setLiked] = useState("")
 
   useEffect(() => {
     const fetchMemeDetails = async () => {
@@ -35,7 +39,7 @@ export default function MemeDetail({ params }: MemeDetailProps) {
     }
 
     fetchMemeDetails()
-  }, [memeId])
+  }, [memeId, liked, isLiked])
 
   useEffect(() => {
     const fetchAllComments = async () => {
@@ -52,6 +56,28 @@ export default function MemeDetail({ params }: MemeDetailProps) {
     await addComment(memeId, formData)
   }
 
+  const toggleLike = () => {
+    setLiked("liked")
+  }
+
+  const toggleUnLike = () => {
+    setLiked("not-liked")
+  }
+
+
+  useEffect(() => {
+    const toggleLikeAndUnLike = async () => {
+      if (liked === "liked") {
+        await likePost(memeId)
+        setIsLiked(true)
+      } else if (liked === "not-liked") {
+        await unLikePost(memeId)
+        setIsLiked(false)
+      }
+    }
+    toggleLikeAndUnLike()
+  }, [liked, memeId])
+
   return (
     <section className="px-5 mt-10 bg-black">
       <Card>
@@ -65,19 +91,26 @@ export default function MemeDetail({ params }: MemeDetailProps) {
           />
          </div>
         </CardBody>
-        <div className="flex flex-row items-center gap-4 bg-[#27272A]
-          p-2 w-fit rounded-lg mt-2">
-          <div className="flex items-center gap-1">
-            <FaRegCommentDots fontSize={22} className="text-red-500" />
-            <p>10k</p>
-          </div>
-          <div className="flex items-center gap-1">
-           <CiHeart fontSize={23} className="text-red-500" />
-           <p>{memeDetails?.likes}</p>
-          </div>
-        </div>
       </Card>
-      <div className="italic text-gray-400">
+      <div className="flex flex-row items-center justify-evenly gap-4 bg-[#27272A] p-2 w-full rounded-lg mt-2">
+       <div className="flex items-center gap-1">
+        <TfiComment fontSize={19} className="text-red-500" />
+        <p>{" "}{comments?.length}</p>
+       </div>
+       <div className="flex items-center gap-1">
+        {liked === "liked"
+         ? <FaHeart onClick={toggleUnLike} fontSize={19} className="text-red-500 cursor-pointer" />
+         : <CiHeart onClick={toggleLike} fontSize={23} className="text-red-500 cursor-pointer" />
+        }
+        <p>{memeDetails?.likes}</p>
+       </div>
+       <div className="flex items-center gap-1">
+        <BiDownvote fontSize={23} className="text-red-500" />
+        <p>22</p>
+        <BiUpvote fontSize={23} className="text-red-500" />
+       </div>
+      </div>
+      <div className="italic text-gray-400 my-2">
         By {memeDetails?.authorId?.username}
       </div>
       <form action={(formData) => handleAddComment(formData, memeDetails?._id!)}>
@@ -87,13 +120,13 @@ export default function MemeDetail({ params }: MemeDetailProps) {
 
       <section className="mt-3">
        {comments && comments.map((comment: Comment) => (
-        <>
+        <Fragment key={comment._id}>
          <div className="flex flex-row gap-2 p-2 justify-between items-center" key={comment._id}>
           <li className="list-none text-lg">{comment.content}</li>
           <li className="list-none text-lg">{comment.commentorId.username}</li>
          </div>
          <Divider />
-        </>
+        </Fragment>
        ))}
       </section>
     </section>

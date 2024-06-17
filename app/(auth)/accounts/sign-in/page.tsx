@@ -4,7 +4,7 @@ import { Button, Input} from "@nextui-org/react";
 import { TbEyeFilled } from "react-icons/tb";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { ChangeEvent, FormEvent, useState } from "react"
-import { checkUser } from "@/actions/user.actions";
+import { checkUser, setUserId } from "@/actions/user.actions";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
@@ -47,6 +47,8 @@ export default function SignIn() {
 
     const user = await checkUser(email)
     const isUserExist = JSON.parse(user).isUserExist
+    const currentUser: UserFromDb = JSON.parse(user).currentUser
+    console.log(currentUser)
 
     if (!isUserExist) {
       setUserExist("This emails does not exist. Please sign up")
@@ -56,6 +58,7 @@ export default function SignIn() {
     try {
       setSignInState("loading")
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      setUserId(currentUser._id)
       setSignInState("success")
       router.push("/memes/feed")
     } catch (error) {

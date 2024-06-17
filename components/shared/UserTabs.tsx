@@ -9,6 +9,8 @@ import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { calculateStats } from "@/lib/utils";
 import Link from "next/link";
+import { TfiComment } from "react-icons/tfi";
+import { BiDownvote, BiUpvote } from "react-icons/bi";
 
 
 export default function UserTabs() {
@@ -76,11 +78,12 @@ export default function UserTabs() {
       selectedKey={selected}
       onSelectionChange={setSelected}
      >
-      <Tab key="post" title="Post">
-       <Card>
-        <CardBody className="flex flex-col gap-3">
-         {memes && memes.map((meme) => (
-           <div key={meme._id}>
+      <Tab key="post" className="flex flex-col gap-3" title="Post">
+       {memes && memes.map((meme) => (
+        <>
+         <Card  key={meme._id}>
+          <CardBody className="flex flex-col gap-3">
+           <div >
             <div className="w-full">
              {meme.file && (
               <Link href={`/memes/${meme._id}/detail`}>
@@ -94,27 +97,26 @@ export default function UserTabs() {
               </Link>
              )}
             </div>
-            <div className="flex flex-row items-center gap-4 bg-[#27272A]
-              p-2 w-fit rounded-lg mt-2">
-             <div className="flex items-center gap-1">
-              <FaRegCommentDots onClick={handleComment} fontSize={23} className="text-white" />
-              <p>10k</p>
-             </div>
-             <div className="flex items-center gap-1">
-              {/* {isLiked ? <FaHeart onClick={() => removeLike} fontSize={23} className="text-red-500" />
-              : <CiHeart onClick={() => addLike} fontSize={23} className="text-white" />
-              } */}
-              {liked === "liked"
-              ? <FaHeart onClick={() => removeLike} fontSize={23} className="text-red-500" />
-              : liked === "not-liked" && <CiHeart onClick={() => addLike(meme._id)} fontSize={23} className="text-white" />
-              }
-              <p>{meme.likes}</p>
-             </div>
-             </div>
            </div>
+          </CardBody>
+         </Card>  
+         <div className="flex flex-row items-center justify-evenly gap-4 bg-[#27272A] p-2 w-full rounded-lg mt-2">
+          <div className="flex items-center gap-1">
+           <TfiComment fontSize={19} className="text-red-500" />
+           <p>10</p>
+          </div>
+          <div className="flex items-center gap-1">
+           <CiHeart fontSize={23} className="text-red-500" />
+           <p>{meme.likes}</p>
+          </div>
+          <div className="flex items-center gap-1">
+           <BiDownvote fontSize={23} className="text-red-500" />
+           <p>22</p>
+           <BiUpvote fontSize={23} className="text-red-500" />
+          </div>
+         </div>
+        </>
         ))}
-        </CardBody>
-       </Card>  
       </Tab>
       <Tab key="stats" title="Stats">
        <Card>

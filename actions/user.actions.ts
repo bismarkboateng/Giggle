@@ -26,7 +26,10 @@ export const checkUser = async (email: string) => {
         const user = await User.findOne({ email })
 
         if (user) {
-            return JSON.stringify({ isUserExist: true })
+            return JSON.stringify({
+                isUserExist: true, 
+                currentUser: user
+            })
         }
 
         return JSON.stringify({ isUserExist: false })
@@ -48,6 +51,7 @@ export const createUser = async (user: CreatUserParams) => {
 
 export const getUserById = async () => {
     const currentUserId = await getUserId()
+    console.log(currentUserId)
 
     try {
         await connectToDatabase()

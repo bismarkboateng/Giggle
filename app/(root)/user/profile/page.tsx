@@ -6,8 +6,10 @@ import { getUserById } from "@/actions/user.actions";
 
 
 export default async function Profile() {
-  const currentUser: string = await getUserById()
+  const currentUser = await getUserById()
   const parsedUser = JSON.parse(currentUser)
+  console.log(currentUser)
+  console.log(parsedUser)
 
   return (
     <section className="bg-black px-5">
@@ -33,8 +35,8 @@ export default async function Profile() {
           </div>
         </section>
         <section className="mt-3">
-         <h1 className="text-[#f2f2f2] text-2xl font-bold">{parsedUser.username}</h1>
-         <p>{parsedUser.rank}</p>
+         <h1 className="text-[#f2f2f2] text-2xl font-bold"></h1>
+         <p></p>
          <UserTabs />
         </section>
       </section>
