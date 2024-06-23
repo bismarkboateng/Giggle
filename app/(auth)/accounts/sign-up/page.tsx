@@ -82,7 +82,7 @@ export default function SignUp() {
 
 
   return (
-    <section className="mt-10 px-5 md:px-32 lg:px-60 xl:px-96 bg-black ">
+    <section className="mt-10 px-5 md:px-32 lg:px-60 xl:px-[450px] bg-black ">
       <h1 className="text-2xl 2xl:text-3xl text-[#EEF1F3] font-bold">Sign Up</h1>
       <p className="mt-1 text-[#F2F2F2] 2xl:text-lg">
        By continuing, you agree to our <span className="text-[#648EFC]">User Agreement</span>
@@ -174,7 +174,7 @@ export default function SignUp() {
       {error && <p className="text-center text-red-500 mt-2">{error}</p>}
 
       <div className="mt-10">
-        <p>Already a Memer? <Link href="/accounts/sign-in" className="text-[#648EFC]">Sign In</Link></p>
+        <p>Already a Memer? <Link href="/accounts/sign-in" className="text-[#648EFC] underline">Sign In</Link></p>
       </div>
     </section>
   )

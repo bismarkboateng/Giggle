@@ -26,7 +26,7 @@ export default async function Feed() {
 
   return (
     <section className="px-5 pt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4
-    bg-black 2xl:grid-cols-4">
+    bg-black 2xl:grid-cols-4 h-screen">
     {memes && memes.map((meme: Meme) => (
       <Fragment key={meme._id}>
        <Card key={meme._id}>

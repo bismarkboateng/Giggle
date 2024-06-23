@@ -16,6 +16,7 @@ import { v4 } from "uuid"
 import { postMeme } from "@/actions/meme.actions";
 import { useRouter } from "next/navigation";
 import { getUserId } from "@/actions/user.actions";
+import { uploadFileToFirebase } from "@/lib/utils";
 
 type TagType = {
   _id: string;
@@ -63,12 +64,9 @@ export default function CreateMeme() {
     const memeToUpload = meme && meme[0]
 
     if (!memeToUpload) return
-    const memeRef = ref(storage, `memes/${memeToUpload.name + v4()}`)
-    uploadBytes(memeRef, memeToUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        sendMemeToDb(url)
-      })
-    })
+
+    const uploadedFileUrl = await uploadFileToFirebase("memes", memeToUpload)
+    sendMemeToDb(uploadedFileUrl)
   }
 
   useEffect(() => {

@@ -59,7 +59,7 @@ export default function SignIn() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       setUserId(currentUser._id)
       setSignInState("success")
-      router.push("/memes/feed")
+      router.push("/onboarding")
     } catch (error) {
       setError("Something went wrong, Please try again")
       setSignInState("")
@@ -68,7 +68,7 @@ export default function SignIn() {
 
 
   return (
-    <section className="mt-10 px-5 md:px-32 lg:px-60 xl:px-96 bg-black">
+    <section className="mt-10 px-5 md:px-32 lg:px-60 xl:px-[450px] bg-black">
       <h1 className="text-2xl 2xl:text-3xl text-[#EEF1F3] font-bold">Sign In</h1>
       <p className="mt-1 text-[#F2F2F2] 2xl:text-lg">
        By continuing, you agree to our <span className="text-[#648EFC]">User Agreement</span>
@@ -126,7 +126,7 @@ export default function SignIn() {
       {error && <p className="text-center text-red-500 mt-2">{error}</p>}
 
       <div className="mt-10">
-        <p>New to Giggle? <Link href="/accounts/sign-up" className="text-[#648EFC]">Sign Up</Link></p>
+        <p>New to Giggle? <Link href="/accounts/sign-up" className="text-[#648EFC] underline">Sign Up</Link></p>
       </div>
     </section>
   )

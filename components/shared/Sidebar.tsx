@@ -9,7 +9,7 @@ export default function Sidebar() {
     <section>
       <Sheet>
        <SheetTrigger>
-        <MdOutlineMenu fontSize={25} />
+        <MdOutlineMenu className="lg:hidden" fontSize={25} />
        </SheetTrigger>
        <SheetContent side="left">
         <SheetHeader>

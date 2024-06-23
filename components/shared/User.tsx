@@ -31,7 +31,7 @@ export default function User() {
     <section>
       <Sheet>
        <SheetTrigger>
-        <Avatar className="w-6 h-6 text-tiny" src="https://i.pravatar.cc/150?u=a04258a2462d826712d" size="sm" />
+        <Avatar className="w-6 h-6 text-tiny lg:hidden" src="https://i.pravatar.cc/150?u=a04258a2462d826712d" size="sm" />
        </SheetTrigger>
        <SheetContent side="bottom">
         <SheetHeader>

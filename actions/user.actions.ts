@@ -6,6 +6,11 @@ import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
+type updateProfileParams = {
+    file: string;
+    username: string;
+    bio: string;
+}
 
 export const setUserId = async (id: string) => {
     await cookies().set("userId", id)
@@ -90,6 +95,30 @@ export const updateUserProfile = async (url: string) => {
         revalidatePath("user/profile")
         return JSON.stringify(currentUser)
     } catch (error) {
+        throw error
+    }
+}
+
+export const updateProfile = async ({
+    file, username, bio
+}: updateProfileParams) => {
+    const currentUserId = await getUserId()
+
+    try {
+        await connectToDatabase()
+        const currentUser = await User.findById(currentUserId)
+        if (!currentUser) {
+            throw new Error("User not found!")
+        }
+
+        currentUser.username = username,
+        currentUser.bio = bio
+        currentUser.image = file
+        currentUser.onboardered = true
+        await currentUser.save()
+
+        redirect("/memes/feed")
+    } catch (error: any) {
         throw error
     }
 }
