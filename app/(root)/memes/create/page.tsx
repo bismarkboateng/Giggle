@@ -83,7 +83,7 @@ export default function CreateMeme() {
 
   return (
     <section className="px-5 mt-5">
-      <h1 className="text-[#B7CAD4] font-bold text-base">
+      <h1 className="text-white text-2xl font-extrabold">
         Post Meme
       </h1>
       <div className="mt-10 ">
@@ -94,9 +94,8 @@ export default function CreateMeme() {
             <input type="file" className="block w-full text-sm text-slate-500
              file:mr-4 file:py-2 file:px-4
              file:rounded-full file:border-0
-             file:text-sm file:font-semibold
-            file:bg-violet-50 file:text-[#B7CAD4]
-            hover:file:bg-gray-300"
+             file:text-sm file:text-blue-600 file:font-semibold
+            file:bg-black file:cursor-pointer cursor-pointer"
             onChange={handleFileChange}
             />
             <IoCloudUploadOutline fontSize={25} />

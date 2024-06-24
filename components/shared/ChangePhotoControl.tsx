@@ -11,7 +11,6 @@ import { revalidatePath } from "next/cache";
 export default function ChangePhotoControl() {
   const [clicked, setClicked] = useState(false)
   const [option, setOption] = useState("")
-//   const [newImage, setNewImage] = useState<File | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [contextPosition, setContextPosition] = useState({
     x: 0,
@@ -64,13 +63,13 @@ export default function ChangePhotoControl() {
     <section className="relative">
      <IoCameraOutline
       fontSize={23}
-      className="text-gray-400"
+      className="text-gray-400 cursor-pointer"
       onClick={handleClick}
      />
      <div>
       {clicked && (
-       <div style={{ display: "absolute", left: contextPosition.x, top: contextPosition.y }}
-        className="bg-gray-900 rounded-md px-2 py-4 flex flex-col gap-2 ml-3">
+       <div style={{ display: "absolute", zIndex: "10", left: contextPosition.x, top: contextPosition.y }}
+        className=" bg-gray-900 rounded-md px-2 py-4 flex flex-col gap-2 ml-3">
         <div onClick={changeProfile}>Change Profile Photo</div>
         <div onClick={removeProfile}>Remove Profile Photo</div>
       </div>

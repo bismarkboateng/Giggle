@@ -12,7 +12,6 @@ const populateMeme = (query: any) => {
 }
 
 
-
 export const postMeme = async (meme: { file: string; tag: string, authorId: string }) => {
     try {
         await connectToDatabase()

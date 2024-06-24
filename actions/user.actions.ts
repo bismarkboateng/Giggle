@@ -111,7 +111,7 @@ export const updateProfile = async ({
             throw new Error("User not found!")
         }
 
-        currentUser.username = username,
+        currentUser.username = username
         currentUser.bio = bio
         currentUser.image = file
         currentUser.onboardered = true
