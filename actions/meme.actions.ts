@@ -109,3 +109,15 @@ export const downvote = async (memeId: string) => {
         throw error
     }
 }
+
+export const searchMemeWithTag = async (searchTerm: string) => {
+    try {
+        await connectToDatabase()
+
+        const searchedMeme = await Meme.find({ tag: { $regex: searchTerm, $options: 'i' } })
+
+        return JSON.stringify(searchedMeme)
+    } catch (error) {
+        throw error
+    }
+}

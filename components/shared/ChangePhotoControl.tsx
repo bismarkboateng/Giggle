@@ -50,7 +50,7 @@ export default function ChangePhotoControl() {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
-    const profileRef = ref(storage, `profiles/${file.name + v4()}`)
+    const profileRef = ref(storage, `profile/${file.name + v4()}`)
 
     uploadBytes(profileRef, file).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
@@ -69,9 +69,15 @@ export default function ChangePhotoControl() {
      <div>
       {clicked && (
        <div style={{ display: "absolute", zIndex: "10", left: contextPosition.x, top: contextPosition.y }}
-        className=" bg-gray-900 rounded-md px-2 py-4 flex flex-col gap-2 ml-3">
-        <div onClick={changeProfile}>Change Profile Photo</div>
-        <div onClick={removeProfile}>Remove Profile Photo</div>
+        className="rounded-md px-4 py-2 flex flex-col gap-2 ml-3 border border-gray-500 shadow-sm">
+        <div onClick={changeProfile}
+         className="text-gray-500 text-sm cursor-pointer hover:text-white transition-all duration-500">
+          Change Profile Photo
+        </div>
+        <div onClick={removeProfile}
+         className="text-gray-500 text-sm cursor-pointer hover:text-white">
+          Remove Profile Photo
+        </div>
       </div>
      )}
      </div>

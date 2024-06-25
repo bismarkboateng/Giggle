@@ -13,25 +13,28 @@ export default async function Profile() {
   return (
     <section className="bg-black px-5">
       <section className="mt-5">
-        <section className="relative border border-red-500">
-          <Image
-           src={parsedUser.image || defaultProfile}
-           width={100}
-           height={100}
-           alt="avatar"
-           className="absolute top-0 left-0 rounded-full"
-          />
-          <ChangePhotoControl />
-          <div className="absolute top-0 right-6">
+        <section className="flex items-start justify-between">
+          <div className="flex flex-row gap-5">
+           <Image
+            src={parsedUser.image || defaultProfile}
+            width={100}
+            height={100}
+            alt="avatar"
+            className="rounded-full object-cover"
+           />
+           <ChangePhotoControl />
+          </div>
+
+          <div className="">
             <Link href="/user/settings">
-             <CiEdit fontSize={23} className="text-white" />
+             <CiEdit fontSize={23} className="text-white cursor-pointer" />
             </Link>
           </div>
         </section>
 
-        <section className="mt-24">
-         <h1 className="text-[#f2f2f2] text-2xl font-bold">{parsedUser.username}</h1>
-         <p className="text-sm italic text-gray-400">{parsedUser.rank}</p>
+        <section className="mt-5">
+         <h1 className="text-sm text-gray-400 font-medium mb-1">@{parsedUser.username}</h1>
+         <p className="text-sm italic text-gray-400"><span className="text-gray-500 font-bold">Rank: </span>{parsedUser.rank}</p>
          <UserTabs />
         </section>
       </section>

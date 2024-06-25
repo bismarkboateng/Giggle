@@ -1,12 +1,12 @@
 "use client"
+
 import { getUserPost } from "@/actions/meme.actions";
 import { getUserId } from "@/actions/user.actions";
 import {Tabs, Tab, Card, CardBody, Divider} from "@nextui-org/react";
 import { getAllCommentWithUserId } from "@/actions/comment.actions";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { calculateStats } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
+import MasonryLayout from "./MasonryLayout";
 import moment from "moment"
 
 
@@ -49,35 +49,19 @@ export default function UserTabs() {
      <Tabs
       aria-label="Options"
       selectedKey={selected}
-      // onSelectionChange={setSelected}
       onSelectionChange={(key) => setSelected(key as string)}
      >
       <Tab key="post" className="flex flex-col gap-3" title="Post">
-       {memes && memes.map((meme) => (
-        <Fragment key={meme._id}>
-         <Card>
-          <CardBody className="flex flex-col gap-3">
-           <div>
-            <div>
-             {meme.file && (
-              <div className="w-full h-[200px]">
-               <Link href={`/memes/${meme._id}/detail`}>
-                <Image
-                 src={meme.file}
-                 width={350}
-                 height={150}
-                 alt="meme"
-                 className="rounded-lg object-cover w-full h-full"
-                />
-               </Link>
-              </div>
-             )}
-            </div>
-           </div>
-          </CardBody>
-         </Card>  
-        </Fragment>
-        ))}
+       <Card>
+        <CardBody> 
+         <h1>All your memes</h1>
+         <Divider className="mt-3 mb-3" />
+         {memes.length === 0 && <p className="text-gray-500 font-medium">No memes yet</p>}
+        </CardBody>
+       </Card>  
+       <div >
+        <MasonryLayout memes={memes} />
+       </div>
       </Tab>
       <Tab key="stats" title="Stats">
        <Card>
@@ -93,9 +77,10 @@ export default function UserTabs() {
       <Tab key="comments" title="Comments">
        <Card>
         <CardBody>
-         <h1>All Your Comments</h1>
+         <h1>All your comments</h1>
          <Divider className="mt-3 mb-3" />
          <div className="grid grid-cols-1 gap-2">
+          {userComment && userComment!.length === 0 && <p className="text-gray-500 font-medium">No comments yet</p>}
           {userComment?.map(comment => (
             <div key={comment._id} className="flex flex-row items-center justify-between">
               <div>{comment.content}</div>

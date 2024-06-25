@@ -93,20 +93,25 @@ export default function MemeDetail({ params }: MemeDetailProps) {
   }
 
   return (
-    <section className="px-5 mt-10 bg-black">
+    <section className="px-5 mt-10 bg-black flex items-start gap-10">
+     <div>
       <Card>
-        <CardBody className="flex flex-col gap-3">
+        <CardBody className="flex flex-col gap-3 overflow-hidden">
          <div className="h-[300px] w-[300px] p-2">
           <Image
            src={memeDetails?.file!}
            fill
            alt="meme detail"
-           className="object-cover rounded-lg w-full h-full"
+           className="w-full h-full transform transition-transform duration-300 ease-in-out hover:scale-105
+           object-center rounded-lg cursor-pointer"
           />
          </div>
         </CardBody>
       </Card>
-      <div className="flex flex-row items-center justify-evenly gap-4 bg-[#27272A] p-2 w-full rounded-lg mt-2">
+
+      <div>
+       <div className="flex flex-row items-center justify-evenly
+       gap-4 bg-[#27272A] p-2 w-full rounded-lg mt-4">
        <div className="flex items-center gap-1">
         <TfiComment fontSize={19} className="text-red-500" />
         <p>{" "}{comments?.length}</p>
@@ -125,10 +130,15 @@ export default function MemeDetail({ params }: MemeDetailProps) {
         <BiDownvote onClick={handleDownvote} fontSize={23} className="text-red-500 cursor-pointer" />
         <p>{memeDetails?.downvotes}</p>
        </div>
+       </div>
+
+       <div className="italic text-gray-400 my-2">
+        by {memeDetails?.authorId?.username}
+       </div>
       </div>
-      <div className="italic text-gray-400 my-2">
-        By {memeDetails?.authorId?.username}
-      </div>
+     </div>
+
+     <div>
       <form action={(formData) => handleAddComment(formData, memeDetails?._id!)}>
        <Input className="mt-2" name="comment" type="text" placeholder="Add a comment" />
        <button type="submit" hidden></button>
@@ -138,13 +148,14 @@ export default function MemeDetail({ params }: MemeDetailProps) {
        {comments && comments.map((comment: Comment) => (
         <Fragment key={comment._id}>
          <div className="flex flex-row gap-2 p-2 justify-between items-center" key={comment._id}>
-          <li className="list-none text-lg">{comment.content}</li>
+          <li className="list-none text-sm text-gray-500 font-bold">{comment.content}</li>
           <li className="list-none text-sm italic text-gray-500">{comment.commentorId.username}</li>
          </div>
          <Divider />
         </Fragment>
        ))}
       </section>
+     </div>
     </section>
   )
 }

@@ -32,7 +32,7 @@ export default function AccountProfile({ userData }: AccountProfileProps) {
     try {
       await updateProfile({
         file: url,
-        username,
+        username: username || userData.username,
         bio,
       })
     } catch (error: any) {
