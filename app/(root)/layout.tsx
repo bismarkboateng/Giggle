@@ -7,7 +7,6 @@ export default function MemeLayout({ children }: { children: React.ReactNode }) 
   return (
     <section>
       <NavbarComponent />
-      
       <section className="flex flex-row">
        <LeftSidebar />
        <section className="w-[65%] px-3 pt-5">

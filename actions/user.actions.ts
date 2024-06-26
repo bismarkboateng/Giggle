@@ -2,9 +2,11 @@
 
 import { connectToDatabase } from "@/lib/database"
 import User from "@/lib/database/models/user.models"
+import Meme from "@/lib/database/models/meme.models"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
+import Comment from "@/lib/database/models/comment.models"
 
 type updateProfileParams = {
     file: string;
@@ -138,6 +140,19 @@ export const removeProfilePhoto = async () => {
         await currentUser.save()
         revalidatePath("user/profile")
         return JSON.stringify(currentUser)
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getCommentorsOnMeme = async () => {
+    const currentUserId = await getUserId()
+    try {
+        await connectToDatabase()
+
+        const currentUserMemes = await Meme.findById(currentUserId)
+
+
     } catch (error) {
         throw error
     }
