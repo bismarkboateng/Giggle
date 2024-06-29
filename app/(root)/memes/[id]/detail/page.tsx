@@ -93,7 +93,7 @@ export default function MemeDetail({ params }: MemeDetailProps) {
   }
 
   return (
-    <section className="px-5 mt-10 bg-black flex items-start gap-10">
+    <section className="md:px-0 xl:px-5 mt-10 bg-black flex flex-col md:flex-row items-start gap-10 md:gap-3">
      <div>
       <Card>
         <CardBody className="flex flex-col gap-3 overflow-hidden">

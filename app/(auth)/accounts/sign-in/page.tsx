@@ -56,7 +56,7 @@ export default function SignIn() {
 
     try {
       setSignInState("loading")
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      await signInWithEmailAndPassword(auth, email, password)
       setUserId(currentUser._id)
       setSignInState("success")
       router.push("/onboarding")

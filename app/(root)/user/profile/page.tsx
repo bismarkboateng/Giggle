@@ -11,7 +11,7 @@ export default async function Profile() {
   const parsedUser = JSON.parse(currentUser)
 
   return (
-    <section className="bg-black px-5">
+    <section className="px-0 bg-black md:px-5">
       <section className="mt-5">
         <section className="flex items-start justify-between">
           <div className="flex flex-row gap-5">

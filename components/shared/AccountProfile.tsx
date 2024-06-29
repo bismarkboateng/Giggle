@@ -73,6 +73,7 @@ export default function AccountProfile({ userData }: AccountProfileProps) {
         className="file:text-blue-600 file:bg-black file:border-none file:outline-none
         file:cursor-pointer file:text-base text-base text-gray-200 cursor-pointer"
        />
+       <p className="text-red-500 text-xs">profile image is required</p>
      </section>
 
       <section>

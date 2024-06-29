@@ -1,15 +1,9 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { getUserId } from './actions/user.actions'
+import { NextResponse, NextRequest } from "next/server"
+import { cookies } from "next/headers"
 
-export function middleware(request: NextRequest) {
-
-  let userId 
-  const getCurrentUserId = async () => {
-    userId = await getUserId()
-  }
-
-  getCurrentUserId()
+export async function middleware(request: NextRequest) {
+  const cookie = cookies().get("userId");
+  const userId = cookie ? cookie.value : undefined;
 
   const url = request.nextUrl.clone()
   const { pathname } = url
@@ -19,25 +13,37 @@ export function middleware(request: NextRequest) {
     "/memes/create",
     "/memes/feed",
     "/memes/search",
-    "/memes/:id/detail",
+    /^\/memes\/\d+\/detail$/,
     "/user/profile",
     "/user/settings",
     "/accounts/reset-password",
   ]
 
   const authRoutes = [
+    "/",
     "/accounts/sign-in",
     "/accounts/sign-up",
     "/onboarding"
   ]
 
+  const isProtectedRoute = protectedRoutes.some((route) => {
+    if (typeof route === "string") {
+      return pathname === route
+    } else if (route instanceof RegExp) {
+      return route.test(pathname)
+    }
+    return false
+  })
+
+  const isAuthRoute = authRoutes.includes(pathname)
+
 
   if (userId) {
-    if (authRoutes.includes(pathname)) {
+    if (isAuthRoute) {
       return NextResponse.redirect(new URL("/memes/feed", request.url))
     }
   } else {
-    if (protectedRoutes.includes(pathname)) {
+    if (isProtectedRoute) {
       return NextResponse.redirect(new URL("/accounts/sign-in", request.url))
     }
   }

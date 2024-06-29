@@ -1,4 +1,4 @@
-import { getUserById } from "@/actions/user.actions"
+import { getUserById, getUserId } from "@/actions/user.actions"
 import { redirect } from "next/navigation"
 import AccountProfile from "@/components/shared/AccountProfile";
 
@@ -6,9 +6,12 @@ import AccountProfile from "@/components/shared/AccountProfile";
 export default async function Onboarding() {
   const currentUser: any = await getUserById()
 
+  const userId = await getUserId()
+  console.log(userId)
+
   const parsedCurrentUser = JSON.parse(currentUser)
 
-  if (parsedCurrentUser.onboardered) {
+  if (parsedCurrentUser?.onboardered) {
     redirect("/memes/feed")
   }
 

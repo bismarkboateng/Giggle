@@ -71,8 +71,7 @@ export default function SignUp() {
         authId: userCredential.user.uid
       })
       setSignUpState("success")
-      // send email to user
-      console.log("send email to user")
+      // TODO: send email to currently signed in user
       router.push("/accounts/sign-in")
     } catch (error) {
       setError("Something went wrong, Please try again")

@@ -38,7 +38,7 @@ export default function Settings() {
             label="username"
             onValueChange={setUsername}
           />
-          <Button type="submit" className="bg-blue-500 text-white">Save</Button>
+          <Button type="submit" className="bg-[#D93900] text-white">Save</Button>
         </form>
       </div>
     </section>

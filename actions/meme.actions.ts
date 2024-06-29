@@ -4,6 +4,7 @@ import { connectToDatabase } from "@/lib/database"
 import Comment from "@/lib/database/models/comment.models";
 import Meme from "@/lib/database/models/meme.models";
 import User from "@/lib/database/models/user.models";
+import { getUserId } from "./user.actions";
 
 const populateMeme = (query: any) => {
     return query
@@ -117,6 +118,19 @@ export const searchMemeWithTag = async (searchTerm: string) => {
         const searchedMeme = await Meme.find({ tag: { $regex: searchTerm, $options: 'i' } })
 
         return JSON.stringify(searchedMeme)
+    } catch (error) {
+        throw error
+    }
+}
+
+export const memesByUser = async () => {
+    try {
+        await connectToDatabase()
+        const userId = await getUserId()
+
+        const commentsCount = await Comment.countDocuments({ commentorId: userId })
+        const memesCount = await Meme.countDocuments({ authorId: userId })
+        return { memesCount, commentsCount }
     } catch (error) {
         throw error
     }

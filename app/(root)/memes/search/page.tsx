@@ -18,9 +18,9 @@ export default function Search() {
   }
 
   return (
-    <section>
+    <section className="w-full max-h-full">
      <h1 className="text-2xl font-extrabold text-white">Search</h1>
-     <form onSubmit={handleSearch}>
+     <form onSubmit={handleSearch} className="w-full h-full">
       <Input
        type="text"
        placeholder="#tag"
@@ -30,7 +30,7 @@ export default function Search() {
       />
       <button type="submit" hidden></button>
      </form>
-     <section className="mt-5">
+     <section className="w-full max-h-full mt-5">
       <MasonryLayout memes={searchedMeme || []} />
      </section>
     </section>

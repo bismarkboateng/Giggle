@@ -25,7 +25,7 @@ export default function LeftSidebar() {
   }
 
   return (
-    <section className="w-[15%] bg-black text-white border-r border-gray-500
+    <section className="hidden md:flex md:w-[10%] lg:w-[20%] bg-black text-white border-r border-gray-500
     px-6">
      <section className="mt-5 flex flex-col gap-10">
       {sidebarLinks.map((item) => {
@@ -43,7 +43,7 @@ export default function LeftSidebar() {
            width={25}
            height={25}
           />
-          <p>{item.label}</p>
+          <p className="md:hidden lg:block">{item.label}</p>
          </Link>
         </div>
         )
@@ -57,7 +57,7 @@ export default function LeftSidebar() {
         width={25}
         height={25}
        />
-       <p>Logout</p>
+       <p className="md:hidden lg:block">Logout</p>
       </div>
      </section>
     </section>
